@@ -1,38 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>Currently Reading</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #fff7e6;
-      text-align: center;
-      padding: 20px;
-      border-radius: 20px;
-      width: 250px;
-    }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Today Clock Widget</title>
 
-    h1 {
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
+  <!-- 디지털 시계 폰트 -->
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
-    .book {
-      font-weight: bold;
-      font-size: 15px;
-    }
-
-    .progress {
-      margin-top: 8px;
-      font-size: 13px;
-      color: #555;
-    }
-  </style>
+  <!-- 분리된 CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <h1>📖 Currently Reading</h1>
-  <div class="book">컴퓨터 구조와 설계</div>
-  <div class="progress">120 / 450 pages</div>
+  <div class="card">
+    <div class="top">
+      <span id="dateText">--</span>
+      <span>⋯</span>
+    </div>
+
+    <div class="clock-box">
+      <span class="time" id="timeText">--:--</span>
+      <span class="ampm" id="ampmText"></span>
+    </div>
+  </div>
+
+  <script>
+    function updateClock(){
+      const now = new Date();
+
+      // 날짜 (MM.DD DAY)
+      const m = String(now.getMonth() + 1).padStart(2, "0");
+      const d = String(now.getDate()).padStart(2, "0");
+      const days = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+      const day = days[now.getDay()];
+      document.getElementById("dateText").textContent =  `♥ ${m}.${d} ${day} ♥`;
+
+      // 시간 (12시간제)
+      let h = now.getHours();
+      const min = String(now.getMinutes()).padStart(2, "0");
+      const ampm = h >= 12 ? "PM" : "AM";
+      h = h % 12;
+      h = h ? h : 12;
+      h = String(h).padStart(2, "0");
+
+      document.getElementById("timeText").textContent = `${h}:${min}`;
+      document.getElementById("ampmText").textContent = ampm;
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
 </body>
 </html>
